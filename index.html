@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>News of Democracy - নরসিংদীর খবর</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans Bengali', 'SolaimanLipi', Arial, sans-serif;
+    background: #f5f5f5;
+    color: #222;
+    line-height: 1.6;
+  }
+
+  /* ---- টপ বার ---- */
+  .topbar {
+    background: #111;
+    color: #fff;
+    font-size: 12px;
+    padding: 6px 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .topbar span { color: #ddd; }
+
+  /* ---- হেডার ---- */
+  header {
+    background: #fff;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 3px solid #c0392b;
+  }
+  .logo {
+    width: 55px; height: 55px;
+    background: #c0392b;
+    border-radius: 50%;
+    color: #fff;
+    font-weight: bold;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #111;
+    flex-shrink: 0;
+  }
+  .brand h1 {
+    font-size: 22px;
+    color: #111;
+    line-height: 1.2;
+  }
+  .brand h1 span { color: #c0392b; }
+  .brand p {
+    font-size: 13px;
+    color: #555;
+    margin-top: 2px;
+  }
+
+  /* ---- মেনু ---- */
+  nav {
+    background: #c0392b;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 5px;
+  }
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 12px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  nav a:hover { background: #a93226; }
+
+  /* ---- ব্রেকিং নিউজ ---- */
+  .breaking {
+    background: #111;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    font-size: 14px;
+    overflow: hidden;
+  }
+  .breaking-label {
+    background: #c0392b;
+    padding: 4px 10px;
+    font-weight: bold;
+    margin-right: 10px;
+    white-space: nowrap;
+    font-size: 13px;
+  }
+  .breaking-text {
+    color: #ffd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ---- মূল অংশ ---- */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 15px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+  }
+
+  /* প্রধান সংবাদ */
+  .lead {
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+  .lead-img {
+    width: 100%;
+    height: 260px;
+    background: linear-gradient(135deg, #2c3e50, #4ca1af);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 15px;
+    text-align: center;
+    padding: 20px;
+  }
+  .lead-body { padding: 15px; }
+  .lead-body h2 {
+    color: #c0392b;
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+  .meta {
+    color: #888;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+  .lead-body p { color: #333; font-size: 15px; }
+
+  /* খবরের তালিকা */
+  .section-title {
+    background: #c0392b;
+    color: #fff;
+    padding: 8px 12px;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 20px 0 10px;
+    border-radius: 4px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .card-img {
+    height: 110px;
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 13px;
+    text-align: center;
+    padding: 10px;
+  }
+  .card-body { padding: 10px; }
+  .card-body h3 {
+    color: #c0392b;
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+  .card-body .meta { font-size: 12px; margin: 0; }
+
+  /* সাইডবার */
+  .sidebar-box {
+    background: #fff;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .sidebar-box h3 {
+    color: #c0392b;
+    font-size: 16px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+  .upazila-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .upazila-list a {
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 6px 8px;
+    background: #f9f9f9;
+    border-radius: 4px;
+    border-left: 3px solid #c0392b;
+  }
+  .weather {
+    text-align: center;
+    color: #333;
+  }
+  .weather .temp {
+    font-size: 32px;
+    color: #c0392b;
+    font-weight: bold;
+  }
+  .latest-list { list-style: none; }
+  .latest-list li {
+    border-bottom: 1px dashed #ddd;
+    padding: 8px 0;
+    font-size: 14px;
+    color: #333;
+  }
+  .latest-list li:last-child { border: none; }
+
+  /* ফুটার */
+  footer {
+    background: #111;
+    color: #ddd;
+    padding: 25px 15px;
+    margin-top: 25px;
+    font-size: 14px;
+  }
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+  }
+  footer h4 {
+    color: #c0392b;
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+  footer p, footer a {
+    color: #bbb;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .copyright {
+    text-align: center;
+    border-top: 1px solid #333;
+    margin-top: 20px;
+    padding-top: 12px;
+    color: #888;
+    font-size: 12px;
+  }
+
+  /* মোবাইল */
+  @media (max-width: 700px) {
+    .container {
+      grid-template-columns: 1fr;
+      padding: 10px;
+    }
+    .grid { grid-template-columns: 1fr 1fr; }
+    .brand h1 { font-size: 18px; }
+    .lead-img { height: 180px; }
+    nav a { font-size: 13px; padding: 8px 9px; }
+  }
+  @media (max-width: 420px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- টপ বার -->
+  <div class="topbar">
+    <span>সোমবার, ২৮ সেপ্টেম্বর ২০২৬ | ০৬:৪০ পূর্বাহ্ণ</span>
+    <span>🌤 নরসিংদী ২৭°C</span>
+  </div>
+
+  <!-- হেডার -->
+  <header>
+    <div class="logo">ND</div>
+    <div class="brand">
+      <h1>NEWS OF <span>DEMOCRACY</span></h1>
+      <p>নরসিংদীর খবর, নরসিংদীর মানুষের জন্য</p>
+    </div>
+  </header>
+
+  <!-- মেনু -->
+  <nav>
+    <a href="#">হোম</a>
+    <a href="#">নরসিংদী</a>
+    <a href="#">সদর</a>
+    <a href="#">রায়পুরা</a>
+    <a href="#">পলাশ</a>
+    <a href="#">শিবপুর</a>
+    <a href="#">মনোহরদী</a>
+    <a href="#">বেলাবো</a>
+    <a href="#">রাজনীতি</a>
+    <a href="#">অপরাধ</a>
+    <a href="#">শিক্ষা</a>
+    <a href="#">ক্রীড়া</a>
+    <a href="#">বিনোদন</a>
+    <a href="#">যোগাযোগ</a>
+  </nav>
+
+  <!-- ব্রেকিং নিউজ -->
+  <div class="breaking">
+    <span class="breaking-label">🔴 ব্রেকিং নিউজ</span>
+    <span class="breaking-text">নরসিংদীতে বন্যা পরিস্থিতির অবনতি, বিচ্ছিন্ন এলাকায় পানি বৃদ্ধি | রায়পুরায় সড়ক দুর্ঘটনায় ২ জন নিহত | মনোহরদীতে নতুন কুল ভবনের উদ্বোধন</span>
+  </div>
+
+  <!-- মূল অংশ -->
+  <div class="container">
+
+    <!-- বাম দিক -->
+    <div>
+      <!-- প্রধান সংবাদ -->
+      <div class="lead">
+        <div class="lead-img">📷 এখানে প্রধান সংবাদের ছবি বসবে</div>
+        <div class="lead-body">
+          <h2>নরসিংদীতে বন্যা পরিস্থিতির অবনতি, বিচ্ছিন্ন এলাকায় পানি বৃদ্ধি</h2>
+          <div class="meta">২৪ সেপ্টেম্বর ২০২৫ | 👁 ১.২কে বার পড়া হয়েছে</div>
+          <p>টানা বৃষ্টিপাতে নরসিংদী জেলার বিচ্ছিন্ন এলাকায় বন্যা পরিস্থিতির অবনতি হয়েছে। নদ-নদীর পানি বাড়ায় প্লাবিত হয়েছে বিস্তীর্ণ এলাকা। স্থানীয় প্রশাসন জানিয়েছে, ক্ষতিগ্রস্তদের জন্য ত্রাণ কার্যক্রম চলছে।</p>
+        </div>
+      </div>
+
+      <!-- নরসিংদী জেলা -->
+      <div class="section-title">নরসিংদী জেলা</div>
+      <div class="grid">
+        <div class="card">
+          <div class="card-img">📷 সদর</div>
+          <div class="card-body">
+            <h3>নরসিংদী সদর উপজেলায় নতুন ভবনের উদ্বোধন</h3>
+            <p class="meta">২২ সেপ্টেম্বর | 👁 ৪৬০</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img">📷 রায়পুরা</div>
+          <div class="card-body">
+            <h3>রায়পুরায় সড়ক দুর্ঘটনায় ২ জন নিহত</h3>
+            <p class="meta">২২ সেপ্টেম্বর | 👁 ৭৩০</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img">📷 পলাশ</div>
+          <div class="card-body">
+            <h3>পলাশে কৃষকদের মাঝে বীজ ও সার বিতরণ</h3>
+            <p class="meta">২১ সেপ্টেম্বর | 👁 ৫২১</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img">📷 শিবপুর</div>
+          <div class="card-body">
+            <h3>শিবপুরে শিক্ষার্থীদের জন্য বিনামূল্যে বই বিতরণ</h3>
+            <p class="meta">২১ সেপ্টেম্বর | 👁 ৩৯০</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- রাজনীতি -->
+      <div class="section-title">রাজনীতি</div>
+      <div class="grid">
+        <div class="card">
+          <div class="card-img">📷 রাজনীতি</div>
+          <div class="card-body">
+            <h3>নরসিংদীতে রাজনৈতিক কর্মসূচিতে জনসমাগম</h3>
+            <p class="meta">২৩ সেপ্টেম্বর | 👁 ৬১২</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img">📷 অপরাধ</div>
+          <div class="card-body">
+            <h3>অপহরণ মামলায় গ্রেপ্তার ৩, উদ্ধার ৫</h3>
+            <p class="meta">২২ সেপ্টেম্বর | 👁 ৭৩০</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ডান দিক (সাইডবার) -->
+    <aside>
+      <div class="sidebar-box">
+        <h3>নরসিংদী জেলা</h3>
+        <div class="upazila-list">
+          <a href="#">সদর</a>
+          <a href="#">রায়পুরা</a>
+          <a href="#">পলাশ</a>
+          <a href="#">শিবপুর</a>
+          <a href="#">মনোহরদী</a>
+          <a href="#">বেলাবো</a>
+        </div>
+      </div>
+
+      <div class="sidebar-box">
+        <h3>আজকের তাপমাত্রা</h3>
+        <div class="weather">
+          <div class="temp">২৭°C</div>
+          <p>নরসিংদী | আর্দ্রতা: ৮৬%</p>
+        </div>
+      </div>
+
+      <div class="sidebar-box">
+        <h3>সর্বশেষ খবর</h3>
+        <ul class="latest-list">
+          <li>🔴 নরসিংদীতে বন্যা পরিস্থিতির অবনতি</li>
+          <li>রায়পুরায় সড়ক দুর্ঘটনায় ২ জন নিহত</li>
+          <li>মনোহরদীতে নতুন কুল ভবনের উদ্বোধন</li>
+          <li>পলাশে কৃষকদের মাঝে বীজ বিতরণ</li>
+          <li>বেলাবোতে শিক্ষার্থীদের মাঝে বই বিতরণ</li>
+        </ul>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ফুটার -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <h4>NEWS OF DEMOCRACY</h4>
+        <p>নরসিংদীর খবর, নরসিংদীর মানুষের জন্য</p>
+      </div>
+      <div>
+        <h4>বিভাগ</h4>
+        <p>
+          <a href="#">নরসিংদী</a> |
+          <a href="#">রাজনীতি</a> |
+          <a href="#">অপরাধ</a> |
+          <a href="#">শিক্ষা</a> |
+          <a href="#">ক্রীড়া</a>
+        </p>
+      </div>
+      <div>
+        <h4>যোগাযোগ</h4>
+        <p>📍 নরসিংদী, বাংলাদেশ<br>
+        📧 info@newsofdemocracy.com<br>
+        📱 +৮৮০ ১৭০০ ০০০০০০</p>
+      </div>
+    </div>
+    <div class="copyright">
+      © ২০২৬ News of Democracy। সর্বস্বত্ব সংরক্ষিত।
+    </div>
+  </footer>
+
+</body>
+  </html>
