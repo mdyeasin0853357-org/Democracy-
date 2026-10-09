@@ -476,15 +476,17 @@
   setInterval(updateDateTime, 60000); // প্রতি মিনিটে আপডেট হবে
 </script>
  async function updateWeather() {
+  const el = document.getElementById('temp');
   try {
     const url = 'https://api.open-meteo.com/v1/forecast?latitude=23.92&longitude=90.72&current=temperature_2m&timezone=Asia/Dhaka';
     const res = await fetch(url);
     const data = await res.json();
     const temp = Math.round(data.current.temperature_2m);
-    const el = document.getElementById('temp');
-    if (el) el.textContent = toBn(temp) + '°C';
+    const bnDigits = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+    const tempBn = temp.toString().replace(/\d/g, d => bnDigits[d]);
+    if (el) el.textContent = tempBn + '°C';
   } catch (e) {
-    console.log('তাপমাত্রা লোড হয়নি');
+    if (el) el.textContent = 'লোড হয়নি';
   }
 }
 
