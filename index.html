@@ -271,51 +271,6 @@
   }
 </style>
 </head>
- <script>
-const bnDigits = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
-function toBn(str) {
-  return String(str).replace(/\d/g, d => bnDigits[d]);
-}
-
-function updateDateTime() {
-  const now = new Date();
-  const days = ['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
-  const months = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
-  const dayName = days[now.getDay()];
-  const day = now.getDate();
-  const month = months[now.getMonth()];
-  const year = now.getFullYear();
-  let hours = now.getHours();
-  let minutes = now.getMinutes();
-  const ampm = hours >= 12 ? 'অপরাহ্ণ' : 'পূর্বাহ্ণ';
-  hours = hours % 12 || 12;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  const dateStr = `${dayName}, ${toBn(day)} ${month} ${toBn(year)} | ${toBn(hours)}:${toBn(minutes)} ${ampm}`;
-  const el = document.getElementById('datetime');
-  if (el) el.textContent = dateStr;
-}
-
-async function updateWeather() {
-  const el = document.getElementById('temp');
-  const elSide = document.getElementById('temp-side');
-  try {
-    const url = 'https://api.open-meteo.com/v1/forecast?latitude=23.92&longitude=90.72&current=temperature_2m&timezone=Asia/Dhaka';
-    const res = await fetch(url);
-    const data = await res.json();
-    const temp = Math.round(data.current.temperature_2m);
-    const tempBn = toBn(temp) + '°C';
-    if (el) el.textContent = tempBn;
-    if (elSide) elSide.textContent = tempBn;
-  } catch (e) {
-    if (el) el.textContent = '--°C';
-    if (elSide) elSide.textContent = '--°C';
-  }
-}
-
-updateDateTime();
-setInterval(updateDateTime, 60000);
-updateWeather();
-setInterval(updateWeather, 600000);
 
   <!-- টপ বার -->
   <div class="topbar">
