@@ -269,5 +269,49 @@
 
     loadNews();
   </script>
+ </div>
+
+<script>
+  // পাসওয়ার্ড সেট করুন (এখানে আপনার পাসওয়ার্ড দিন)
+  const ADMIN_PASSWORD = "narsingdi2026";
+  
+  function checkPassword() {
+    const input = document.getElementById('passwordInput').value;
+    const errorMsg = document.getElementById('errorMsg');
+    
+    if (input === ADMIN_PASSWORD) {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminContent').style.display = 'block';
+      // সেশনে মনে রাখবে — পরবর্তী ৭ দিন আর পাসওয়ার্ড চাইবে না
+      localStorage.setItem('adminLoggedIn', 'yes');
+    } else {
+      errorMsg.style.display = 'block';
+      document.getElementById('passwordInput').value = '';
+    }
+  }
+  
+  // যদি আগে লগইন করে থাকে
+  if (localStorage.getItem('adminLoggedIn') === 'yes') {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminContent').style.display = 'block';
+  }
+</script>
 </body>
+ <!-- পাসওয়ার্ড স্ক্রিন -->
+<div id="loginScreen" style="position:fixed; top:0; left:0; right:0; bottom:0; background:#0a2540; z-index:9999; display:flex; align-items:center; justify-content:center; padding:20px;">
+  <div style="background:#fff; padding:30px 25px; border-radius:12px; max-width:400px; width:100%; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+    <div style="font-size:50px; margin-bottom:10px;">🔐</div>
+    <h2 style="color:#0a2540; font-size:20px; margin-bottom:6px;">Admin Panel</h2>
+    <p style="color:#666; font-size:13px; margin-bottom:20px;">News of Democracy</p>
+    
+    <input type="password" id="passwordInput" placeholder="পাসওয়ার্ড লিখুন" style="width:100%; padding:12px 15px; border:2px solid #ddd; border-radius:8px; font-size:15px; text-align:center; font-family:inherit;" onkeypress="if(event.key==='Enter') checkPassword()">
+    
+    <button onclick="checkPassword()" style="width:100%; background:#c0392b; color:#fff; border:none; padding:12px; border-radius:8px; font-size:15px; font-weight:bold; margin-top:12px; cursor:pointer;">প্রবেশ করুন</button>
+    
+    <p id="errorMsg" style="color:#c0392b; font-size:13px; margin-top:12px; display:none;">❌ ভুল পাসওয়ার্ড!</p>
+  </div>
+</div>
+
+<!-- মূল কনটেন্ট (লুকানো) -->
+<div id="adminContent" style="display:none;">
   </html>
