@@ -516,6 +516,79 @@
 
 updateWeather();
 setInterval(updateWeather, 600000); // প্রতি ১০ মিনিটে আপডেট
+ 
+// হোমপেজে Firebase থেকে সংবাদ লোড
+const newsContainer = document.getElementById('newsContainer');
+
+function formatLead(news) {
+  const imgHtml = news.image 
+    ? `<img src="${news.image}" class="lead-img" alt="${news.title}" style="object-fit:cover;">` 
+    : '';
+  return `
+    <div class="lead">
+      ${imgHtml}
+      <div class="lead-body">
+        <h2>${news.title}</h2>
+        <div class="meta">${news.date || ''} | 👁 ${news.category}</div>
+        <p>${news.body}</p>
+      </div>
+    </div>
+  `;
+}
+
+function formatCard(news) {
+  const imgHtml = news.image 
+    ? `<img src="${news.image}" class="card-img" alt="${news.title}" style="object-fit:cover;" onerror="this.style.display='none'">` 
+    : '';
+  return `
+    <div class="card">
+      ${imgHtml}
+      <div class="card-body">
+        <h3>${news.title}</h3>
+        <p class="meta">${news.category} | ${news.date || ''}</p>
+      </div>
+    </div>
+  `;
+}
+
+async function loadHomeNews() {
+  try {
+    const snapshot = await db.collection('news')
+      .orderBy('timestamp', 'desc')
+      .limit(20)
+      .get();
+
+    if (snapshot.empty) {
+      newsContainer.innerHTML = '<div style="text-align:center; padding:40px; color:#888; background:#fff; border-radius:6px;">এখনো কোনো সংবাদ প্রকাশিত হয়নি।<br><br>Admin Panel থেকে সংবাদ যোগ করুন।</div>';
+      return;
+    }
+
+    const allNews = [];
+    snapshot.forEach(doc => {
+      allNews.push({ id: doc.id, ...doc.data() });
+    });
+
+    let html = '';
+    html += formatLead(allNews[0]);
+
+    if (allNews.length > 1) {
+      html += `<div class="section-title">সর্বশেষ সংবাদ</div>`;
+      html += `<div class="grid">`;
+      allNews.slice(1).forEach(news => {
+        html += formatCard(news);
+      });
+      html += `</div>`;
+    }
+
+    newsContainer.innerHTML = html;
+
+  } catch (err) {
+    console.error(err);
+    newsContainer.innerHTML = '<div style="text-align:center; padding:30px; color:#888;">সংবাদ লোড করা যায়নি। Firebase Rules চেক করুন।</div>';
+  }
+}
+
+loadHomeNews();
  </script>
 </body>
 </html>
