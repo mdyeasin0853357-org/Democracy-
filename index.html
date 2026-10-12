@@ -298,6 +298,184 @@
   @media (max-width: 420px) {
     .grid { grid-template-columns: 1fr; }
   }
+ /* ===== নতুন হেডার ===== */
+.topbar {
+  background: #0a2540;
+  color: #fff;
+  font-size: 13px;
+  padding: 8px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.topbar-left, .topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.admin-btn {
+  background: #e63946;
+  color: #fff !important;
+  padding: 5px 14px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* মেইন হেডার */
+.main-header {
+  background: #fff;
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-bottom: 1px solid #eee;
+}
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.header-logo {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+}
+.brand-text h1 {
+  font-size: 13px;
+  color: #0a2540;
+  line-height: 1;
+  letter-spacing: 1px;
+}
+.brand-text h2 {
+  font-size: 20px;
+  color: #0a2540;
+  line-height: 1;
+  font-weight: 900;
+}
+.brand-text p {
+  font-size: 10px;
+  color: #666;
+  margin-top: 2px;
+}
+.header-search {
+  flex: 1;
+  max-width: 400px;
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  overflow: hidden;
+  background: #f9f9f9;
+}
+.header-search input {
+  flex: 1;
+  border: none;
+  padding: 8px 15px;
+  font-size: 13px;
+  background: transparent;
+  font-family: inherit;
+}
+.header-search input:focus { outline: none; }
+.header-search button {
+  background: #0a2540;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.header-social {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.header-social a {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+}
+.social-fb { background: #1877f2; }
+.social-yt { background: #ff0000; }
+.social-tw { background: #000; }
+.social-tg { background: #0088cc; }
+
+/* ব্যানার */
+.banner { width: 100%; line-height: 0; }
+.banner img { width: 100%; height: auto; display: block; }
+
+/* মেনু বার */
+nav {
+  background: #0a2540;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0;
+  gap: 0;
+}
+nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 14px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+nav a:hover { background: #14375c; }
+nav a:first-child {
+  background: #e63946;
+}
+.nav-icon { font-size: 13px; }
+
+/* ব্রেকিং নিউজ */
+.breaking {
+  background: #fff;
+  border-bottom: 2px solid #eee;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  gap: 10px;
+}
+.breaking-label {
+  background: #e63946;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.breaking-text {
+  color: #333;
+  font-size: 13px;
+  flex: 1;
+}
+
+/* মোবাইল */
+@media (max-width: 700px) {
+  .main-header { flex-direction: column; align-items: stretch; }
+  .header-search { max-width: 100%; }
+  .header-social { justify-content: center; }
+  nav { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; }
+  nav a { white-space: nowrap; padding: 10px 12px; font-size: 12px; }
+  .brand-text h2 { font-size: 17px; }
+  .topbar { font-size: 11px; padding: 6px 10px; }
+ }
 </style>
  </head>
 <body>
