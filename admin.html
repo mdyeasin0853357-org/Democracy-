@@ -1,186 +1,74 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel - News of Democracy</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Noto Sans Bengali', Arial, sans-serif;
-    background: #f0f2f5;
-    padding: 15px;
-    color: #222;
-  }
-  .admin-header {
-    background: #c0392b;
-    color: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  .admin-header h1 { font-size: 22px; }
-  .admin-header p { font-size: 13px; margin-top: 4px; }
-
-  .form-box {
-    background: #fff;
-    padding: 18px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    margin-bottom: 18px;
-  }
-  .form-box h2 {
-    color: #c0392b;
-    font-size: 18px;
-    margin-bottom: 14px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 8px;
-  }
-  label {
-    display: block;
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 5px;
-    margin-top: 10px;
-    font-weight: bold;
-  }
-  input, textarea, select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 15px;
-    font-family: inherit;
-    background: #fafafa;
-  }
-  input:focus, textarea:focus, select:focus {
-    outline: none;
-    border-color: #c0392b;
-    background: #fff;
-  }
-  textarea { resize: vertical; min-height: 100px; }
-  button {
-    background: #c0392b;
-    color: #fff;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 5px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 15px;
-  }
-  button:hover { background: #a93226; }
-  button:disabled { background: #999; cursor: not-allowed; }
-  .msg {
-    margin-top: 12px;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 14px;
-    display: none;
-  }
-  .msg.success { background: #d4edda; color: #155724; display: block; }
-  .msg.error { background: #f8d7da; color: #721c24; display: block; }
-
-  .news-list {
-    background: #fff;
-    padding: 18px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  }
-  .news-list h2 {
-    color: #c0392b;
-    font-size: 18px;
-    margin-bottom: 14px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 8px;
-  }
-  .news-item {
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  .news-item:last-child { border: none; }
-  .news-item-info h3 {
-    color: #333;
-    font-size: 15px;
-    margin-bottom: 3px;
-  }
-  .news-item-info p {
-    font-size: 12px;
-    color: #888;
-  }
-  .delete-btn {
-    background: #e74c3c;
-    color: #fff;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 12px;
-    cursor: pointer;
-    width: auto;
-    margin: 0;
-  }
-  .delete-btn:hover { background: #c0392b; }
-  .loading { text-align: center; color: #888; padding: 15px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - News of Democracy</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f9; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; }
+        .header { background-color: #d9534f; color: white; text-align: center; padding: 15px; border-radius: 8px 8px 0 0; margin: -20px -20px 20px -20px; }
+        .header h1 { margin: 0; font-size: 20px; }
+        .header p { margin: 5px 0 0 0; font-size: 12px; }
+        label { display: block; margin-top: 10px; font-weight: bold; color: #555; }
+        input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: inherit; }
+        button { width: 100%; padding: 12px; margin-top: 20px; background-color: #d9534f; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        button:hover { background-color: #c9302c; }
+        .msg { text-align: center; margin-top: 15px; font-weight: bold; padding: 10px; border-radius: 4px; display: none; }
+        .msg.success { display: block; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .msg.error { display: block; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .news-list { margin-top: 30px; }
+        .news-list h2 { font-size: 18px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .news-item { background: #f9f9f9; padding: 15px; margin-bottom: 10px; border-left: 4px solid #d9534f; border-radius: 4px; }
+        .news-item h3 { margin: 0 0 5px 0; font-size: 16px; }
+        .news-item p { margin: 0; font-size: 14px; color: #666; }
+    </style>
 </head>
 <body>
 
-  <div class="admin-header">
-    <h1>📰 Admin Panel</h1>
-    <p>News of Democracy - সংবাদ প্রকাশ করুন</p>
-  </div>
+<div class="container">
+    <div class="header">
+        <h1>📰 Admin Panel</h1>
+        <p>News of Democracy - সংবাদ প্রকাশ করুন</p>
+    </div>
 
-  <div class="form-box">
-    <h2>✍️ নতুন সংবাদ যোগ করুন</h2>
     <form id="newsForm">
-      <label>সংবাদের শিরোনাম *</label>
-      <input type="text" id="title" required placeholder="যেমন: নরসিংদীতে নতুন সড়ক নির্মাণ শুরু">
+        <label>সংবাদের শিরোনাম *</label>
+        <input type="text" id="title" required placeholder="সংবাদের শিরোনাম লিখুন">
 
-      <label>বিভাগ *</label>
-      <select id="category" required>
-        <option value="">-- বিভাগ বেছে নিন --</option>
-        <option value="নরসিংদী">নরসিংদী</option>
-        <option value="সদর">সদর</option>
-        <option value="রায়পুরা">রায়পুরা</option>
-        <option value="পলাশ">পলাশ</option>
-        <option value="শিবপুর">শিবপুর</option>
-        <option value="মনোহরদী">মনোহরদী</option>
-        <option value="বেলাবো">বেলাবো</option>
-        <option value="রাজনীতি">রাজনীতি</option>
-        <option value="অপরাধ">অপরাধ</option>
-        <option value="শিক্ষা">শিক্ষা</option>
-        <option value="ক্রীড়া">ক্রীড়া</option>
-        <option value="বিনোদন">বিনোদন</option>
-      </select>
+        <label>বিভাগ *</label>
+        <select id="category" required>
+            <option value="নরসিংদী">নরসিংদী</option>
+            <option value="রায়পুরা">রায়পুরা</option>
+            <option value="পলাশ">পলাশ</option>
+            <option value="শিবপুর">শিবপুর</option>
+            <option value="বেলাবো">বেলাবো</option>
+            <option value="মনোহরদী">মনোহরদী</option>
+        </select>
 
-      <label>সংবাদের বিস্তারিত *</label>
-      <textarea id="body" required placeholder="এখানে সংবাদের পূর্ণ বিবরণ লিখুন..."></textarea>
+        <label>সংবাদের বিস্তারিত *</label>
+        <textarea id="body" rows="5" required placeholder="বিস্তারিত লিখুন"></textarea>
 
-      <label>ছবির নাম (ঐচ্ছিক)</label>
-      <input type="text" id="image" placeholder="যেমন: sadar.jpg (GitHub-এ আপলোড করা ছবি)">
+        <label>ছবির নাম (ঐচ্ছিক)</label>
+        <input type="text" id="image" placeholder="যেমন: Sadar.jpg (GitHub-এ আপলোড করা ছবি)">
 
-      <button type="submit" id="submitBtn">📤 প্রকাশ করুন</button>
-      <div class="msg" id="msg"></div>
+        <button type="submit" id="submitBtn">📤 প্রকাশ করুন</button>
+        <div class="msg" id="msg"></div>
     </form>
-  </div>
 
-  <div class="news-list">
-    <h2>📋 প্রকাশিত সংবাদসমূহ</h2>
-    <div id="newsList"><div class="loading">লোড হচ্ছে...</div></div>
-  </div>
-<!-- Firebase SDK -->
+    <div class="news-list">
+        <h2>📋 প্রকাশিত সংবাদসমূহ</h2>
+        <div id="newsList"><div style="text-align:center; padding: 20px;">লোড হচ্ছে...</div></div>
+    </div>
+</div>
+
+<!-- Firebase SDK (Compatible Version) -->
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
 
 <script>
-    // এখানে সরাসরি কনফিগ বসিয়ে দিচ্ছি, যাতে কোনো কনফিউশন না থাকে
+    // Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyBJjQKi-kaO-ib7pxVj5fTM5VWgzC2NL_A",
         authDomain: "democracy-news-e5857.firebaseapp.com",
@@ -192,150 +80,87 @@
         measurementId: "G-J7ZP49V7J5"
     };
 
-    // Firebase চালু করা
+    // Initialize Firebase
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
-
-    // Database ভেরিয়েবল তৈরি করা (যেটি আপনার এরর দিচ্ছিল)
     const db = firebase.database();
+
+    // DOM Elements
     const form = document.getElementById('newsForm');
     const msg = document.getElementById('msg');
     const submitBtn = document.getElementById('submitBtn');
     const newsList = document.getElementById('newsList');
 
-    // নতুন সংবাদ যোগ করা
+    // Form Submit (Publish News)
     form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'প্রকাশ হচ্ছে...';
+        e.preventDefault();
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'প্রকাশ হচ্ছে...';
+        msg.className = 'msg';
+        msg.style.display = 'none';
 
-      const title = document.getElementById('title').value.trim();
-      const category = document.getElementById('category').value;
-      const body = document.getElementById('body').value.trim();
-      const image = document.getElementById('image').value.trim();
-     try {
-    await db.ref('news').push({
-        title: title,
-        category: category,
-        body: body,
-        image: image,
-        date: new Date().toLocaleString("bn-BD"),
-        timestamp: firebase.database.ServerValue.TIMESTAMP
-    });
+        const title = document.getElementById('title').value;
+        const category = document.getElementById('category').value;
+        const body = document.getElementById('body').value;
+        const image = document.getElementById('image').value;
 
-    msg.className = 'msg success';
-    msg.textContent = '✅ সংবাদ সফলভাবে প্রকাশিত হয়েছে!';
-    form.reset();
-    loadNews(); // নিচে যদি loadNews ফাংশন থাকে
-    
-} catch (err) {
-    msg.className = 'msg error';
-    msg.textContent = '❌ সমস্যা: ' + err.message;
-     }
+        try {
+            await db.ref('news').push({
+                title: title,
+                category: category,
+                body: body,
+                image: image,
+                date: new Date().toLocaleString("bn-BD"),
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            });
 
-        msg.className = 'msg success';
-        msg.textContent = '✅ সংবাদ সফলভাবে প্রকাশিত হয়েছে!';
-        form.reset();
-        loadNews();
-      } catch (err) {
-        msg.className = 'msg error';
-        msg.textContent = '❌ সমস্যা: ' + err.message;
-      }
-
-      submitBtn.disabled = false;
-      submitBtn.textContent = '📤 প্রকাশ করুন';
-    });
-
-    // সংবাদের তালিকা লোড করা
-    async function loadNews() {
-      newsList.innerHTML = '<div class="loading">লোড হচ্ছে...</div>';
-      try {
-        const snapshot = await db.collection('news')
-          .orderBy('timestamp', 'desc')
-          .limit(20)
-          .get();
-
-        if (snapshot.empty) {
-          newsList.innerHTML = '<div class="loading">এখনো কোনো সংবাদ নেই।</div>';
-          return;
+            msg.className = 'msg success';
+            msg.textContent = '✅ সংবাদ সফলভাবে প্রকাশিত হয়েছে!';
+            form.reset();
+            
+        } catch (err) {
+            msg.className = 'msg error';
+            msg.textContent = '❌ সমস্যা: ' + err.message;
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '📤 প্রকাশ করুন';
         }
+    });
 
-        newsList.innerHTML = '';
-        snapshot.forEach((doc) => {
-          const data = doc.data();
-          const item = document.createElement('div');
-          item.className = 'news-item';
-          item.innerHTML = `
-            <div class="news-item-info">
-              <h3>${data.title}</h3>
-              <p>${data.category} | ${data.date || ''}</p>
-            </div>
-            <button class="delete-btn" onclick="deleteNews('${doc.id}')">🗑 মুছুন</button>
-          `;
-          newsList.appendChild(item);
+    // Load News Function (Realtime Database)
+    function loadNews() {
+        db.ref('news').on('value', (snapshot) => {
+            newsList.innerHTML = '';
+            if (snapshot.exists()) {
+                // ডাটা উল্টো করে দেখাবে (নতুনটা আগে)
+                const newsData = [];
+                snapshot.forEach((childSnapshot) => {
+                    newsData.push({ id: childSnapshot.key, ...childSnapshot.val() });
+                });
+                newsData.reverse();
+
+                newsData.forEach((news) => {
+                    const div = document.createElement('div');
+                    div.className = 'news-item';
+                    div.innerHTML = `
+                        <h3>${news.title}</h3>
+                        <p><strong>বিভাগ:</strong> ${news.category} | <strong>তারিখ:</strong> ${news.date}</p>
+                        <p>${news.body.substring(0, 50)}...</p>
+                    `;
+                    newsList.appendChild(div);
+                });
+            } else {
+                newsList.innerHTML = '<div style="text-align:center; padding: 20px;">এখনো কোনো সংবাদ নেই।</div>';
+            }
+        }, (error) => {
+            newsList.innerHTML = `<div style="text-align:center; padding: 20px; color:red;">এরর: ${error.message}</div>`;
         });
-      } catch (err) {
-        newsList.innerHTML = '<div class="loading">লোড করা যায়নি: ' + err.message + '</div>';
-      }
     }
 
-    // সংবাদ মুছে ফেলা
-    async function deleteNews(id) {
-      if (!confirm('আপনি কি এই সংবাদটি মুছে ফেলতে চান?')) return;
-      try {
-        await db.collection('news').doc(id).delete();
-        loadNews();
-      } catch (err) {
-        alert('মুছতে সমস্যা: ' + err.message);
-      }
-    }
-
+    // Call loadNews when page loads
     loadNews();
-  </script>
- </div>
 
-<script>
-  // পাসওয়ার্ড সেট করুন (এখানে আপনার পাসওয়ার্ড দিন)
-  const ADMIN_PASSWORD = "mdyeasin01";
-  
-  function checkPassword() {
-    const input = document.getElementById('passwordInput').value;
-    const errorMsg = document.getElementById('errorMsg');
-    
-    if (input === ADMIN_PASSWORD) {
-      document.getElementById('loginScreen').style.display = 'none';
-      document.getElementById('adminContent').style.display = 'block';
-      // সেশনে মনে রাখবে — পরবর্তী ৭ দিন আর পাসওয়ার্ড চাইবে না
-      localStorage.setItem('adminLoggedIn', 'yes');
-    } else {
-      errorMsg.style.display = 'block';
-      document.getElementById('passwordInput').value = '';
-    }
-  }
-  
-  // যদি আগে লগইন করে থাকে
-  if (localStorage.getItem('adminLoggedIn') === 'yes') {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminContent').style.display = 'block';
-  }
 </script>
 </body>
- <!-- পাসওয়ার্ড স্ক্রিন -->
-<div id="loginScreen" style="position:fixed; top:0; left:0; right:0; bottom:0; background:#0a2540; z-index:9999; display:flex; align-items:center; justify-content:center; padding:20px;">
-  <div style="background:#fff; padding:30px 25px; border-radius:12px; max-width:400px; width:100%; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
-    <div style="font-size:50px; margin-bottom:10px;">🔐</div>
-    <h2 style="color:#0a2540; font-size:20px; margin-bottom:6px;">Admin Panel</h2>
-    <p style="color:#666; font-size:13px; margin-bottom:20px;">News of Democracy</p>
-    
-    <input type="password" id="passwordInput" placeholder="পাসওয়ার্ড লিখুন" style="width:100%; padding:12px 15px; border:2px solid #ddd; border-radius:8px; font-size:15px; text-align:center; font-family:inherit;" onkeypress="if(event.key==='Enter') checkPassword()">
-    
-    <button onclick="checkPassword()" style="width:100%; background:#c0392b; color:#fff; border:none; padding:12px; border-radius:8px; font-size:15px; font-weight:bold; margin-top:12px; cursor:pointer;">প্রবেশ করুন</button>
-    
-    <p id="errorMsg" style="color:#c0392b; font-size:13px; margin-top:12px; display:none;">❌ ভুল পাসওয়ার্ড!</p>
-  </div>
-</div>
-
-<!-- মূল কনটেন্ট (লুকানো) -->
-<div id="adminContent" style="display:none;">
-  </html>
+</html>
