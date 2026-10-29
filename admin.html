@@ -175,12 +175,31 @@
     <h2>📋 প্রকাশিত সংবাদসমূহ</h2>
     <div id="newsList"><div class="loading">লোড হচ্ছে...</div></div>
   </div>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
- <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
-  <script src="firebase-config.js"></script>
+<script>
+    // এখানে সরাসরি কনফিগ বসিয়ে দিচ্ছি, যাতে কোনো কনফিউশন না থাকে
+    const firebaseConfig = {
+        apiKey: "AIzaSyBJjQKi-kaO-ib7pxVj5fTM5VWgzC2NL_A",
+        authDomain: "democracy-news-e5857.firebaseapp.com",
+        databaseURL: "https://democracy-news-e5857-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "democracy-news-e5857",
+        storageBucket: "democracy-news-e5857.firebasestorage.app",
+        messagingSenderId: "69601903557",
+        appId: "1:69601903557:web:10fc18932abb3b86c181ac",
+        measurementId: "G-J7ZP49V7J5"
+    };
 
+    // Firebase চালু করা
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+
+    // Database ভেরিয়েবল তৈরি করা (যেটি আপনার এরর দিচ্ছিল)
+    const db = firebase.database();
+</script>
   <script>
     const form = document.getElementById('newsForm');
     const msg = document.getElementById('msg');
