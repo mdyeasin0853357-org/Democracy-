@@ -699,44 +699,48 @@ function formatCard(news) {
   `;
 }
 
-async function loadHomeNews() {
-  try {
-    const snapshot = await db.collection('news')
-      .orderBy('timestamp', 'desc')
-      .limit(20)
-      .get();
+ function loadHomeNews() {
+    // Realtime Database থেকে ডাটা রিড করা
+    db.ref('news').limitToLast(20).on('value', (snapshot) => {
+        if (!snapshot.exists()) {
+            newsContainer.innerHTML = '<div style="text-align:center; padding:20px; color:red;">কোনো সংবাদ পাওয়া যায়নি।</div>';
+            return;
+        }
 
-    if (snapshot.empty) {
-      newsContainer.innerHTML = '<div style="text-align:center; padding:40px; color:#888; background:#fff; border-radius:6px;">এখনো কোনো সংবাদ প্রকাশিত হয়নি।<br><br>Admin Panel থেকে সংবাদ যোগ করুন।</div>';
-      return;
-    }
+        const allNews = [];
+        snapshot.forEach((childSnapshot) => {
+            const news = childSnapshot.val();
+            news.id = childSnapshot.key;
+            allNews.push(news);
+        });
 
-    const allNews = [];
-    snapshot.forEach(doc => {
-      allNews.push({ id: doc.id, ...doc.data() });
+        // ডাটা উল্টো করা (সর্বশেষ সংবাদ আগে দেখানোর জন্য)
+        allNews.reverse();
+
+        let html = '';
+        
+        if (allNews.length > 0) {
+            // প্রথম নিউজটি বড় করে দেখানোর জন্য (Lead News)
+            html += formatLead(allNews[0]);
+
+            // বাকি নিউজগুলো কার্ড আকারে দেখানোর জন্য
+            if (allNews.length > 1) {
+                html += `<div class="section-title">সর্বশেষ খবর</div>`; // আপনার ডিজাইন অনুযায়ী প্রয়োজনে পরিবর্তন করুন
+                html += `<div class="grid">`;
+                allNews.slice(1).forEach(news => {
+                    html += formatCard(news);
+                });
+                html += `</div>`;
+            }
+        }
+
+        newsContainer.innerHTML = html;
+
+    }, (error) => {
+        console.error(error);
+        newsContainer.innerHTML = `<div style="text-align:center; padding:20px; color:red;">এরর: ${error.message}</div>`;
     });
-
-    let html = '';
-    html += formatLead(allNews[0]);
-
-    if (allNews.length > 1) {
-      html += `<div class="section-title">সর্বশেষ সংবাদ</div>`;
-      html += `<div class="grid">`;
-      allNews.slice(1).forEach(news => {
-        html += formatCard(news);
-      });
-      html += `</div>`;
-    }
-
-    newsContainer.innerHTML = html;
-
-  } catch (err) {
-    console.error(err);
-    newsContainer.innerHTML = '<div style="text-align:center; padding:30px; color:#888;">সংবাদ লোড করা যায়নি। Firebase Rules চেক করুন।</div>';
-  }
-}
-
-loadHomeNews();
+ }
  </script>
 </body>
 </html>
