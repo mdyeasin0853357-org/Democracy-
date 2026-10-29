@@ -1,11 +1,4 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBJjQKi-kaO-ib7pxVj5fTM5VWgzC2NL_A",
   authDomain: "democracy-news-e5857.firebaseapp.com",
@@ -17,3 +10,10 @@ const firebaseConfig = {
   measurementId: "G-J7ZP49V7J5"
 };
 
+// Initialize Firebase (Compatible Version)
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+// Database ডিফাইন করা (যা আপনার admin.html এ কাজে লাগবে)
+const db = firebase.database();
