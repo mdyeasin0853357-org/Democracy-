@@ -214,18 +214,25 @@
       const category = document.getElementById('category').value;
       const body = document.getElementById('body').value.trim();
       const image = document.getElementById('image').value.trim();
+     try {
+    await db.ref('news').push({
+        title: title,
+        category: category,
+        body: body,
+        image: image,
+        date: new Date().toLocaleString("bn-BD"),
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+    });
 
-      try {
-        await db.collection('news').add({
-          title: title,
-          category: category,
-          body: body,
-          image: image,
-          date: new Date().toLocaleDateString('bn-BD', {
-            day: 'numeric', month: 'long', year: 'numeric'
-          }),
-          timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
+    msg.className = 'msg success';
+    msg.textContent = '✅ সংবাদ সফলভাবে প্রকাশিত হয়েছে!';
+    form.reset();
+    loadNews(); // নিচে যদি loadNews ফাংশন থাকে
+    
+} catch (err) {
+    msg.className = 'msg error';
+    msg.textContent = '❌ সমস্যা: ' + err.message;
+     }
 
         msg.className = 'msg success';
         msg.textContent = '✅ সংবাদ সফলভাবে প্রকাশিত হয়েছে!';
